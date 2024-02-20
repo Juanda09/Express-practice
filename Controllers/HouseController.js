@@ -104,3 +104,22 @@ exports.deleteHouseByCodigo = async (req,res)=>{
         res.status(500).send("Error al eliminar la casa");
     }
 }
+exports.upload= exports.upload = async (req, res) => {
+    if (!req.file) {
+        return res.status(400).send({
+            message: "No file uploaded"
+        });
+    }
+    try {
+        const house = await HouseSchema.findOne({code: req.params.codigo});
+        if (!house) {
+            return res.status(404).json({ message: "No existe la casa con ese codigo" });
+        }
+        house.image = req.file.path;
+        await house.save(); // Espera a que se complete la operación de guardar antes de enviar la respuesta
+        res.status(200).json(house);
+    } catch (error) {
+        console.error("Error al procesar la solicitud:", error);
+        res.status(500).send("Error al procesar la solicitud");
+    }
+}
