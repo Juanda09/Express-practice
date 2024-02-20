@@ -9,7 +9,14 @@ const env = require('dotenv').config();  // Cargar variables de entorno
 const generateToken = (user) => {
     return jwt.sign({ id: user._id, email: user.email },env.JWT_SECRET, { expiresIn: "1h" }); // Cambia "secreto" por tu propia clave secreta
 };
-
+exports.upload = async (req, res) => {
+    if (!req.file) {
+        return  res.status(400).send({
+            message: "No file uploaded"
+        });
+    }
+    res.send({"name": req.file.filename});
+};
 exports.validateToken = async (req, res, next)=> {
     const bearerHeader = req.headers["authorization"];
     if (!bearerHeader) {
