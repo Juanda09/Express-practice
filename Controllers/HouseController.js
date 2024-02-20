@@ -24,6 +24,10 @@ exports.createHouse = async (req, res) => {
     }
     try {
         const codigo = generarCodigo();
+        const allowedTypes = ['house', 'apartment'];
+        if (!allowedTypes.includes(req.body.type)) {
+            return res.status(400).json({ message: 'Tipo de propiedad no válido. Debe ser "house" o "apartment".' });
+        }
         const house = new HouseSchema({
             code: codigo,
             address: req.body.address,
@@ -71,6 +75,11 @@ exports.getHouseByCodigo = async (req, res) => {
 
 exports.updateHouseByCodigo = async (req, res) => {
     try {
+        const allowedTypes = ['house', 'apartment'];
+        if (!allowedTypes.includes(req.body.type)) {
+            return res.status(400).json({ message: 'Tipo de propiedad no válido. Debe ser "house" o "apartment".' });
+        }
+
         const house = await HouseSchema.findOneAndUpdate({ code: req.params.codigo }, req.body, { new: true });
         if (!house) {
             return res.status(404).json({ message: "No existe la casa con ese código" });
@@ -81,6 +90,7 @@ exports.updateHouseByCodigo = async (req, res) => {
         res.status(500).send("Error al actualizar la casa");
     }
 }
+
 
 exports.deleteHouseByCodigo = async (req,res)=>{
     try {
