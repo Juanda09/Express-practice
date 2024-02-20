@@ -58,7 +58,7 @@ exports.getHouses = async (req, res) => {
 
 exports.getHouseByCodigo = async (req, res) => {
     try {
-        const house = await HouseSchema.findOne({ codigo: req.params.codigo });
+        const house = await HouseSchema.findOne({ code: req.params.codigo });
         if (!house) {
             return res.status(404).json({ message: "No existe la casa con ese código" });
         }
@@ -71,7 +71,7 @@ exports.getHouseByCodigo = async (req, res) => {
 
 exports.updateHouseByCodigo = async (req, res) => {
     try {
-        const house = await HouseSchema.findOneAndUpdate({ codigo: req.params.codigo }, req.body, { new: true });
+        const house = await HouseSchema.findOneAndUpdate({ code: req.params.codigo }, req.body, { new: true });
         if (!house) {
             return res.status(404).json({ message: "No existe la casa con ese código" });
         }
@@ -84,7 +84,7 @@ exports.updateHouseByCodigo = async (req, res) => {
 
 exports.deleteHouseByCodigo = async (req,res)=>{
     try {
-        const house = await HouseSchema.findOneAndDelete({ codigo: req.params.codigo });
+        const house = await HouseSchema.findOneAndDelete({ code: req.params.codigo });
         if (!house) {
             return res.status(404).json({ message: "No existe la casa con ese código" });
         }
