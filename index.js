@@ -18,7 +18,9 @@ mongoose.connect(DB_URL);
 // Middleware para procesar datos codificados en URL y JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use("/uploads", express.static(process.cwd() + "/uploads"));
 
+// Incorporación de las rutas al servidor
 // Ruta principal
 app.get("/", (req, res) => {
     res.send(

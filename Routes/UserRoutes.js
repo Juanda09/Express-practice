@@ -4,19 +4,31 @@ const UserController = require("../Controllers/UserController");
 const { validateUserCreate, validateUserUpdate, validateLogin } = require("../middlewares/userMiddleware");
 const multer= require("multer")
 
-const  storage =  multer.diskStorage({
-    destination: function (req, res, cb){
-        cb(null,"uploads")
-},
-filename:function(req,file,cb){
-    cb(null,Date.now()+ "-" + file.originalname)
-}
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "uploads/");
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + "-" + file.originalname);
+    }
 });
-const upload =multer({storage : storage})
 
-router.post("/upload",upload.single('file'),UserController.upload);
-// Importación de los controladores y middlewares necesarios
-// Importación de los controladores y middlewares necesarios
+// Filtro para aceptar solo imágenes
+const imageFilter = function (req, file, cb) {
+    const allowedMimes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (allowedMimes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Invalid file type. Only JPEG, PNG, and GIF image files are allowed.'), false);
+    }
+};
+
+const upload = multer({ 
+    storage: storage,
+    fileFilter: imageFilter // Aplicar el filtro de imágenes
+});
+
+router.post("/upload/:id/user", upload.single('file'), UserController.upload);
 
 // Rutas para la gestión de usuarios
 

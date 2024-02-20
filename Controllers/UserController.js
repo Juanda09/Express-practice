@@ -11,12 +11,24 @@ const generateToken = (user) => {
 };
 exports.upload = async (req, res) => {
     if (!req.file) {
-        return  res.status(400).send({
+        return res.status(400).send({
             message: "No file uploaded"
         });
     }
-    res.send({"name": req.file.filename});
+    try {
+        const user = await UserSchema.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: "No existe el usuario con ese ID" });
+        }
+        user.avatar = req.file.path;
+        await user.save(); // Espera a que se complete la operación de guardar antes de enviar la respuesta
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Error al procesar la solicitud:", error);
+        res.status(500).send("Error al procesar la solicitud");
+    }
 };
+
 exports.validateToken = async (req, res, next)=> {
     const bearerHeader = req.headers["authorization"];
     if (!bearerHeader) {
