@@ -1,20 +1,27 @@
 const HouseSchema = require('../models/House');
 const { validationResult } = require('express-validator');
 
-function generarCodigo() {
+async function generarCodigo() {
     // Genera tres letras aleatorias en mayúsculas
     const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     let codigo = '';
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         codigo += letras.charAt(Math.floor(Math.random() * letras.length));
     }
 
     // Genera tres números aleatorios
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         codigo += Math.floor(Math.random() * 10);
     }
-
-    return codigo;
+    console.log(codigo);
+    const codigoexistente = await HouseSchema.findOne({ code: codigo });
+    if (codigoexistente) {
+        return generarCodigo();
+    }
+    else{
+        return codigo;
+    }
 }
 
 exports.createHouse = async (req, res) => {
@@ -23,7 +30,11 @@ exports.createHouse = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const codigo = generarCodigo();
+        const casa_existente = await HouseSchema.findOne({address : req.body.address}); 
+        if (casa_existente) {
+            return res.status(400).json({ message: 'La casa ya existe.' });
+        }
+        const codigo = await generarCodigo();
         const allowedTypes = ['house', 'apartment'];
         if (!allowedTypes.includes(req.body.type)) {
             return res.status(400).json({ message: 'Tipo de propiedad no válido. Debe ser "house" o "apartment".' });

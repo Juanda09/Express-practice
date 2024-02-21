@@ -9,7 +9,7 @@ const HouseRoutes = require("./Routes/HouseRoutes.js"); // Rutas para la gestió
 const app = express();
 
 // Puerto en el que se ejecutará el servidor
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 // Conexión a la base de datos MongoDB
 const DB_URL = process.env.DB_URL;
