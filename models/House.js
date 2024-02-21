@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 // Definir el esquema para la propiedad inmobiliaria
 const HouseSchema = new mongoose.Schema({
-    address: { type: String, required: true },
+    address: { type: String,unique:true, required: true },
     city: { type: String, required: true},
     state: { type: String, required: true}, 
     size: { type: Number, required: true},

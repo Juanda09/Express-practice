@@ -1,0 +1,37 @@
+const ciudadesPorDepartamento = {
+    "Amazonas": ["Leticia", "Puerto Narino"],
+    "Antioquia": ["Medellin", "Bello", "Envigado", "Itagui", "Apartado", "Rionegro"],
+    "Arauca": ["Arauca", "Saravena"],
+    "Atlantico": ["Barranquilla", "Soledad", "Malambo", "Puerto Colombia"],
+    "Bolivar": ["Cartagena", "Magangue", "Turbo", "San Juan Nepomuceno"],
+    "Boyaca": ["Tunja", "Duitama", "Sogamoso", "Chiquinquira"],
+    "Caldas": ["Manizales", "La Dorada", "Chinchina", "Villamaria"],
+    "Caqueta": ["Florencia", "San Vicente del Caguan", "Puerto Rico"],
+    "Casanare": ["Yopal", "Aguazul", "Villanueva", "Tauramena"],
+    "Cauca": ["Popayan", "Santander de Quilichao", "Puerto Tejada", "Timbio"],
+    "Cesar": ["Valledupar", "Aguachica", "La Jagua de Ibirico", "Bosconia"],
+    "Choco": ["Quibdo", "Nuqui", "Tado", "Istmina"],
+    "Cordoba": ["Monteria", "Sahagun", "Lorica", "Montelibano"],
+    "Cundinamarca": ["Bogota", "Zipaquira", "Chia", "Soacha"],
+    "Guainia": ["Inirida"],
+    "Guaviare": ["San Jose del Guaviare"],
+    "Huila": ["Neiva", "Pitalito", "Garzon", "Campoalegre"],
+    "La Guajira": ["Riohacha", "Maicao", "Uribia", "Fonseca"],
+    "Magdalena": ["Santa Marta", "Cienaga", "Fundacion", "El Banco"],
+    "Meta": ["Villavicencio", "Acacias", "Granada", "Puerto Lopez"],
+    "Narino": ["Pasto", "Tumaco", "Ipiales", "Tuquerres"],
+    "Norte de Santander": ["Cucuta", "Ocana", "Pamplona", "Villa del Rosario"],
+    "Putumayo": ["Mocoa", "Puerto Asis", "Sibundoy", "Orito"],
+    "Quindio": ["Armenia", "Calarca", "Montenegro", "La Tebaida"],
+    "Risaralda": ["Pereira", "Dosquebradas", "La Virginia", "Santa Rosa de Cabal"],
+    "San Andres y Providencia": ["San Andres"],
+    "Santander": ["Bucaramanga", "Floridablanca", "Giron", "Piedecuesta"],
+    "Sucre": ["Sincelejo", "Corozal", "Sampues", "San Onofre"],
+    "Tolima": ["Ibague", "Espinal", "Melgar", "Honda"],
+    "Valle del Cauca": ["Cali", "Buga", "Palmira", "Tulua"],
+    "Vaupes": ["Mitu"],
+    "Vichada": ["Puerto Carreno"]
+  };
+  
+  module.exports = ciudadesPorDepartamento;
+  

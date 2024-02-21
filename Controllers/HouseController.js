@@ -1,5 +1,7 @@
 const HouseSchema = require('../models/House');
 const { validationResult } = require('express-validator');
+const ciudadesPorDepartamento = require('../Colombia_data');
+
 
 async function generarCodigo() {
     // Genera tres letras aleatorias en mayúsculas
@@ -14,7 +16,6 @@ async function generarCodigo() {
     for (let i = 0; i < 4; i++) {
         codigo += Math.floor(Math.random() * 10);
     }
-    console.log(codigo);
     const codigoexistente = await HouseSchema.findOne({ code: codigo });
     if (codigoexistente) {
         return generarCodigo();
@@ -30,7 +31,7 @@ exports.createHouse = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const casa_existente = await HouseSchema.findOne({address : req.body.address}); 
+        const casa_existente = await HouseSchema.findOne({ address: req.body.address }); 
         if (casa_existente) {
             return res.status(400).json({ message: 'La casa ya existe.' });
         }
@@ -39,6 +40,14 @@ exports.createHouse = async (req, res) => {
         if (!allowedTypes.includes(req.body.type)) {
             return res.status(400).json({ message: 'Tipo de propiedad no válido. Debe ser "house" o "apartment".' });
         }
+        // Validación de la ciudad perteneciente al departamento
+        const departamento = req.body.state;
+        const ciudad = req.body.city;
+        const ciudadesDepartamento = ciudadesPorDepartamento[departamento];
+        if (!ciudadesDepartamento || !ciudadesDepartamento.includes(ciudad)) {
+            return res.status(400).json({ message: 'La ciudad no pertenece al departamento especificado.' });
+        }
+
         const house = new HouseSchema({
             code: codigo,
             address: req.body.address,
@@ -59,6 +68,7 @@ exports.createHouse = async (req, res) => {
         res.status(500).send("Error al crear la casa");
     }
 }
+
 
 
 exports.getHouses = async (req, res) => {
@@ -90,6 +100,13 @@ exports.updateHouseByCodigo = async (req, res) => {
         if (!allowedTypes.includes(req.body.type)) {
             return res.status(400).json({ message: 'Tipo de propiedad no válido. Debe ser "house" o "apartment".' });
         }
+                // Validación de la ciudad perteneciente al departamento
+        const departamento = req.body.state;
+        const ciudad = req.body.city;
+        const ciudadesDepartamento = ciudadesPorDepartamento[departamento];
+        if (!ciudadesDepartamento || !ciudadesDepartamento.includes(ciudad)) {
+            return res.status(400).json({ message: 'La ciudad no pertenece al departamento especificado.' });
+        }
 
         const house = await HouseSchema.findOneAndUpdate({ code: req.params.codigo }, req.body, { new: true });
         if (!house) {
@@ -115,7 +132,7 @@ exports.deleteHouseByCodigo = async (req,res)=>{
         res.status(500).send("Error al eliminar la casa");
     }
 }
-exports.upload= exports.upload = async (req, res) => {
+exports.upload= async (req, res) => {
     if (!req.file) {
         return res.status(400).send({
             message: "No file uploaded"
