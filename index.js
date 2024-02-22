@@ -48,6 +48,13 @@ app.get("/", (req, res) => {
 });
 io.on('connect',(socket)=>{
     console.log('a user connected');
+    socket.on('message',(data)=>{
+        console.log(data);
+        io.emit('message',{"message": "mensaje recibido"});
+    })
+    socket.on('disconnect',()=>{
+        console.log('user disconnected');
+    })
 })
 
 
