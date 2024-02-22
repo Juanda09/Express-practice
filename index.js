@@ -1,12 +1,20 @@
 // Importación de módulos necesarios
-const express = require("express"); // Framework web
+const express = require("express");
 const mongoose = require("mongoose"); // ODM para MongoDB
-require('dotenv').config(); // Para cargar variables de entorno desde un archivo .env
+const socket = require("socket.io");
+
+
+// Para cargar variables de entorno desde un archivo .env
+require('dotenv').config();
+
+// Importación de rutas
 const UserRoutes = require("./Routes/UserRoutes.js");
-const HouseRoutes = require("./Routes/HouseRoutes.js"); // Rutas para la gestión de casas
+const HouseRoutes = require("./Routes/HouseRoutes.js");
 
 // Creación de la aplicación Express
 const app = express();
+const http = require("http").Server(app);
+const io = socket(http);
 
 // Puerto en el que se ejecutará el servidor
 const port = process.env.PORT || 4000;
@@ -24,12 +32,24 @@ mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 // Middleware para procesar datos codificados en URL y JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Middleware para servir archivos estáticos
 app.use("/uploads", express.static(process.cwd() + "/uploads"));
+
+// Middleware para pasar el objeto 'io' a las rutas
+app.use((req, res, next) => {
+    res.io = io;
+    next();
+});
 
 // Ruta principal
 app.get("/", (req, res) => {
     res.send(`API RESTful de Usuarios <br> ${new Date()}`);
 });
+io.on('connect',(socket)=>{
+    console.log('a user connected');
+})
+
 
 // Uso de las rutas definidas para la gestión de usuarios y casas
 app.use("/user/", UserRoutes);
@@ -42,6 +62,6 @@ app.use((err, req, res, next) => {
 });
 
 // Inicio del servidor
-app.listen(port, () => {
+http.listen(port, () => {
     console.log(`API running on http://localhost:${port}/`); // Muestra un mensaje en la consola indicando que el servidor está en funcionamiento
 });
