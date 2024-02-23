@@ -82,30 +82,35 @@
     <script>
         $(document).ready(function(){
             var socket = io('http://localhost:4000',{transports:['websocket']});
-            socket.on("connect",function(socket){
+            socket.on("connect",function(){
                 console.log("Se ha conectado el cliente");
-            })
-            function addMenssages(){
+            });
+            function addMessages(message) {
                 const messageElement = document.createElement("li");
-                messageElement.textContent = document.getElementById("envio_mensajes").value;
-                const Messagediv = document.getElementById("mensaje");
-                Messagediv.appendChild(messageElement);
+                messageElement.textContent = message.body;
+                const messageList = document.getElementById("mensaje");
+                messageList.appendChild(messageElement);
             }
-            socket.on('messages',function(data){
-              addMenssages(data);
-            })
+            socket.on('messages', function(data){
+                try {
+                    const message = JSON.parse(data);
+                    addMessages(message);
+                } catch (error) {
+                    console.error('Error al procesar el mensaje:', error);
+                }
+            });
             $("#send").click(function(){
-                content = document.getElementById("envio_mensajes").value;
+                var content = document.getElementById("envio_mensajes").value;
                 var data = JSON.stringify({
                     "body": content,
                     "from": "65cebc2a19cdafb5a4f59637",
                     "to": "65cebc5119cdafb5a4f59639"
-                })
-                socket.emit('messages',data);
-            })
-            socket.on("disconnect",function(socket){
+                });
+                socket.emit('messages', data);
+            });
+            socket.on("disconnect",function(){
                 console.log("Se ha desconectado el cliente");
-            })
+            });
         });
     </script>
 </body>
