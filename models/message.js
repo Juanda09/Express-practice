@@ -1,14 +1,13 @@
-const mongoose = require('mongoose ');
-const UserSchema = require('./user');
+const mongose = require('mongoose');
 
-const MessageSchema = new moongose.Schema({
+const MessageSchema = new mongose.Schema({
     from: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
     to: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
@@ -27,4 +26,4 @@ const MessageSchema = new moongose.Schema({
     }
 )
 
-module.exports = mongoose.model('Message', MessageSchema);
+module.exports = mongose.model('Message', MessageSchema);

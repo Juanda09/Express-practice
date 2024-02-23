@@ -3,13 +3,15 @@ const express = require("express");
 const mongoose = require("mongoose"); // ODM para MongoDB
 const socket = require("socket.io");
 
-
 // Para cargar variables de entorno desde un archivo .env
 require('dotenv').config();
 
 // Importación de rutas
 const UserRoutes = require("./Routes/UserRoutes.js");
 const HouseRoutes = require("./Routes/HouseRoutes.js");
+const MessageRoutes= require("./Routes/MessageRoutes.js");
+const MessageSchema = require("./models/message.js")
+const UserSchema = require("./models/user.js");
 
 // Creación de la aplicación Express
 const app = express();
@@ -46,21 +48,49 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
     res.send(`API RESTful de Usuarios <br> ${new Date()}`);
 });
-io.on('connect',(socket)=>{
-    console.log('a user connected');
-    socket.on('message',(data)=>{
-        console.log(data);
-        io.emit('message',{"message": "mensaje recibido"});
-    })
-    socket.on('disconnect',()=>{
-        console.log('user disconnected');
-    })
-})
-
 
 // Uso de las rutas definidas para la gestión de usuarios y casas
-app.use("/user/", UserRoutes);
-app.use("/casas/", HouseRoutes);
+app.use("/", UserRoutes);
+app.use("/", HouseRoutes);
+app.use("/", MessageRoutes);
+
+// Manejo de eventos de socket
+io.on('connect', (socket) => {
+    console.log('a user connected');
+
+    socket.on('message', async (data) => {
+        try {
+            const Mensaje = JSON.parse(data);
+
+            // Verificar que los campos 'from' y 'to' estén presentes
+            if (!Mensaje.from || !Mensaje.to) {
+                io.emit('message', {"message": "Los campos 'from' y 'to' son obligatorios."});
+                return;
+            }
+
+            // Suponiendo que tienes algún modelo llamado UserModel para tus usuarios
+            // Verificar si los IDs 'from' y 'to' existen en la base de datos
+            const Userfrom = await UserSchema.findById(Mensaje.from);
+            const Userto = await UserSchema.findById(Mensaje.to);
+            if (!Userfrom || !Userto) {
+                io.emit('message', {"message": "Los IDs 'from' y 'to' no existen en la base de datos."});
+                return;
+            }
+
+            // Si ambos IDs existen, guardar el mensaje
+            await MessageSchema(Mensaje).save();
+            io.emit('message', {"message": "mensaje almacenado"});
+            io.emit('message', {"message": "mensaje recibido"});
+        } catch (error) {
+            console.log(error.message);
+            io.emit('message', {"message": error.message});
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+});
 
 // Middleware para manejar errores
 app.use((err, req, res, next) => {
@@ -72,3 +102,4 @@ app.use((err, req, res, next) => {
 http.listen(port, () => {
     console.log(`API running on http://localhost:${port}/`); // Muestra un mensaje en la consola indicando que el servidor está en funcionamiento
 });
+
