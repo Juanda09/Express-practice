@@ -55,35 +55,42 @@ app.use("/", HouseRoutes);
 app.use("/", MessageRoutes);
 
 // Manejo de eventos de socket
+// Manejo de eventos de socket
 io.on('connect', (socket) => {
     console.log('a user connected');
 
     socket.on('message', async (data) => {
         try {
-            const Mensaje = JSON.parse(data);
+            const message = JSON.parse(data);
 
             // Verificar que los campos 'from' y 'to' estén presentes
-            if (!Mensaje.from || !Mensaje.to) {
+            if (!message.from || !message.to) {
                 io.emit('message', {"message": "Los campos 'from' y 'to' son obligatorios."});
                 return;
             }
 
             // Suponiendo que tienes algún modelo llamado UserModel para tus usuarios
             // Verificar si los IDs 'from' y 'to' existen en la base de datos
-            const Userfrom = await UserSchema.findById(Mensaje.from);
-            const Userto = await UserSchema.findById(Mensaje.to);
-            if (!Userfrom || !Userto) {
+            const userFrom = await UserSchema.findById(message.from);
+            const userTo = await UserSchema.findById(message.to);
+            if (!userFrom || !userTo) {
                 io.emit('message', {"message": "Los IDs 'from' y 'to' no existen en la base de datos."});
                 return;
             }
 
             // Si ambos IDs existen, guardar el mensaje
-            await MessageSchema(Mensaje).save();
-            io.emit('message', {"message": "mensaje almacenado"});
-            io.emit('message', {"message": "mensaje recibido"});
+            const newMessage = new MessageSchema({
+                body: message.body,
+                from: message.from,
+                to: message.to
+            });
+            await newMessage.save();
+
+            // Enviar el mensaje a todos los clientes conectados al websocket
+            io.emit('message-receipt', newMessage);
         } catch (error) {
-            console.log(error.message);
-            io.emit('message', {"message": error.message});
+            console.error(error);
+            io.emit('message', {"message": "Error al procesar el mensaje."});
         }
     });
 
@@ -91,6 +98,7 @@ io.on('connect', (socket) => {
         console.log('user disconnected');
     });
 });
+
 
 // Middleware para manejar errores
 app.use((err, req, res, next) => {
