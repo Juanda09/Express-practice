@@ -35,6 +35,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 // Middleware para servir archivos estáticos
 app.use("/uploads", express.static(process.cwd() + "/uploads"));
 
