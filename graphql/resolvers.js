@@ -59,7 +59,7 @@ const resolvers = {
             throw error;
         }
     },
-    UserByFilter: async ({ filter }) => {
+    UserByFilter: async (_,{ filter }) => {
         try {
             const query = {};
             if (filter) {
@@ -74,6 +74,7 @@ const resolvers = {
                 }
             }
             // Implementa la lógica para buscar usuarios por filtro
+            return users = await UserSchema.find(query);
         } catch (error) {
             console.error("Error al buscar usuarios por filtro:", error);
             throw error;
@@ -99,7 +100,39 @@ const resolvers = {
             console.error("Error al buscar mensajes por usuario:", error);
             throw error;
         }
-    }
+    },
+    HouseByFilter: async (_,{ filter }) => {
+        try {
+            const query = {};
+            if (filter) {
+                if (filter.state) {
+                    query.state = { $regex: filter.state, $options: "i" };
+                }
+                if (filter.city) {
+                    query.city = { $regex: filter.city, $options: "i" };
+                }
+                if (filter.parking) {
+                    query.parking = { $regex: filter.parking, $options: "i" };
+                }
+                if (filter.type) {
+                    query.type = { $regex: filter.type, $options: "i" };
+                }
+                if (filter.rooms) {
+                    query.rooms = filter.rooms; // Corrección: No es necesario usar $regex para el número de habitaciones
+                }
+                if (filter.bathrooms) {
+                    query.bathrooms = filter.bathrooms; // Corrección: No es necesario usar $regex para el número de baños
+                }
+            }
+            // El retorno debe estar fuera del bloque if
+            return houses = await HouseSchema.find(query);
+        } catch (error) {
+            console.error("Error al buscar casas por filtro:", error);
+            throw error;
+        }
+    }    
+    
+
 };
 
 module.exports = resolvers;

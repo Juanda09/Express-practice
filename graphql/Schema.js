@@ -60,6 +60,17 @@ const UserFilterInputType = new GraphQLInputObjectType({
         last_name: { type: GraphQLString }
     })
 });
+const HouseFilterInputType = new GraphQLInputObjectType({
+    name: 'HouseFilterInput',
+    fields: () => ({
+        city: { type: GraphQLString },
+        state: { type: GraphQLString },
+        type: { type: GraphQLString },
+        rooms: { type: GraphQLInt },
+        bathrooms: { type: GraphQLInt },
+        parking: { type: GraphQLBoolean }
+    })
+})
 
 // Define las consultas GraphQL
 const QueryType = new GraphQLObjectType({
@@ -108,6 +119,13 @@ const QueryType = new GraphQLObjectType({
                 filter: { type: UserFilterInputType }
             },
             resolve: resolvers.UserByFilter
+        },
+        HouseByFilter:{
+            type: new GraphQLList(HouseType),
+            args: {
+                filter: { type: HouseFilterInputType }
+            },
+            resolve: resolvers.HouseByFilter
         },
         messagesByUser:{
             type: new GraphQLList(MessageType),
