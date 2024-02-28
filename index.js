@@ -2,6 +2,8 @@
 const express = require("express");
 const mongoose = require("mongoose"); // ODM para MongoDB
 const socket = require("socket.io");
+const {createYoga} = require("graphql-yoga");
+const schema = require("./graphql/Schema.js");
 
 // Para cargar variables de entorno desde un archivo .env
 require('dotenv').config();
@@ -44,7 +46,8 @@ app.use((req, res, next) => {
     res.io = io;
     next();
 });
-
+const yoga= new createYoga({schema});
+app.use('/graphql',yoga)
 // Ruta principal
 app.get("/", (req, res) => {
     res.send(`API RESTful de Usuarios <br> ${new Date()}`);

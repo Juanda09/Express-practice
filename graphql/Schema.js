@@ -1,25 +1,39 @@
-const { GraphQLObjectType, GraphQLID, GraphQLBoolean, GraphQLInputObjectType } = require('graphql');
+const {
+    GraphQLObjectType,
+    GraphQLID,
+    GraphQLBoolean,
+    GraphQLString,
+    GraphQLInt,
+    GraphQLInputObjectType,
+    GraphQLList,
+    GraphQLSchema
+} = require('graphql');
+
 const resolvers = require('./resolvers');
-const User = new GraphQLObjectType({
+
+// Define tipos GraphQL
+const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
         email: { type: GraphQLString },
-        lastname: { type: GraphQLString }
+        last_name: { type: GraphQLString }
     })
-})
-const Message = new GraphQLObjectType({
+});
+
+const MessageType = new GraphQLObjectType({
     name: 'Message',
     fields: () => ({
         id: { type: GraphQLID },
-        from: { type: User },
-        to: { type: User },
+        from: { type: UserType },
+        to: { type: UserType },
         body: { type: GraphQLString },
         reader: { type: GraphQLBoolean }
     })
-})
-const House = new GraphQLObjectType({
+});
+
+const HouseType = new GraphQLObjectType({
     name: 'House',
     fields: () => ({
         id: { type: GraphQLID },
@@ -35,63 +49,72 @@ const House = new GraphQLObjectType({
         parking: { type: GraphQLBoolean },
         price: { type: GraphQLInt }
     })
-})
-const UserFilterInput = GraphQLInputObjectType({
+});
+
+const UserFilterInputType = new GraphQLInputObjectType({
     name: 'UserFilterInput',
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
         email: { type: GraphQLString },
-        lastname: { type: GraphQLString }
+        last_name: { type: GraphQLString }
     })
-}
-)
+});
 
-const Query = new GraphQLObjectType({
+// Define las consultas GraphQL
+const QueryType = new GraphQLObjectType({
     name: 'Query',
     fields: () => ({
-        hello: { type: GraphQLString },
+        hello: {
+            type: GraphQLString,
+            resolve:resolvers.hello,
+        },
         message: {
-            type: Message,
+            type: MessageType,
             args: {
                 id: { type: GraphQLID }
             },
             resolve: resolvers.message
         },
         messages: {
-            type: new GraphQLList(Message),
+            type: new GraphQLList(MessageType),
             resolve: resolvers.messages
         },
         user: {
-            type: User,
+            type: UserType,
             args: {
                 id: { type: GraphQLID }
             },
-            resolve: resolvers.user
+            resolve: resolvers.User
         },
         users: {
-            type: new GraphQLList(User),
-            resolve: resolvers.users
+            type: new GraphQLList(UserType),
+            resolve: resolvers.Users
         },
         house: {
-            type: House,
+            type: HouseType,
             args: {
                 code: { type: GraphQLString }
             },
             resolve: resolvers.house
         },
         houses: {
-            type: new GraphQLList(House),
+            type: new GraphQLList(HouseType),
             resolve: resolvers.houses
         },
-        UserByFilter: {
-            type: new GraphQLList(User),
+        usersByFilter: {
+            type: new GraphQLList(UserType),
             args: {
-                filter: { type: UserFilterInput }
+                filter: { type: UserFilterInputType }
             },
             resolve: resolvers.UserByFilter
         }
     })
 });
 
-module.exports = schema
+// Define el esquema GraphQL
+const schema = new GraphQLSchema({
+    query: QueryType
+});
+
+module.exports = schema;

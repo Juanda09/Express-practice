@@ -1,45 +1,79 @@
 const UserSchema = require("../models/user");
-const resolver = {
+const HouseSchema = require("../models/House");
+const MessageSchema = require("../models/message");
+
+const resolvers = {
     hello: () => {
         return "Hola Mundo";
     },
-    User: async ({ id }) => {
+    message: async (_,{id}) => {
+        try {
+            return message = await MessageSchema.findById(id);
+        } catch (error) {
+            console.error("Error al buscar mensaje por ID:", error);
+            throw error;
+        }
+    },
+    messages: async () => {
+        try {
+            return messages = await MessageSchema.find();
+        } catch (error) {
+            console.error("Error al buscar mensajes:", error);
+            throw error;
+        }
+    },
+    User: async (_,{id}) => {
         try {
             return user = await UserSchema.findById(id);
-        }
-        catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.error("Error al buscar usuario por ID:", error);
+            throw error;
         }
     },
     Users: async () => {
         try {
             return users = await UserSchema.find();
-        }
-        catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.error("Error al buscar usuarios:", error);
+            throw error;
         }
     },
-    UserByFilter: async (filter) => {
+    house: async (_,{code}) => {
         try {
-            let query = {}
+            return house = await HouseSchema.findOne({ code: code });
+        } catch (error) {
+            console.error("Error al buscar casa por código:", error);
+            throw error;
+        }
+    },
+    houses: async () => {
+        try {
+            return houses = await HouseSchema.find();
+        } catch (error) {
+            console.error("Error al buscar casas:", error);
+            throw error;
+        }
+    },
+    UserByFilter: async ({ filter }) => {
+        try {
+            const query = {};
             if (filter) {
                 if (filter.name) {
-                    query.name = { $regex: filter.name, $options: "i" }
+                    query.name = { $regex: filter.name, $options: "i" };
                 }
                 if (filter.email) {
-                    query.email = { $regex: filter.email, $options: "i" }
+                    query.email = { $regex: filter.email, $options: "i" };
                 }
-                if (filter.lastname) {
-                    query.lastname = { $regex: filter.lastname, $options: "i" }
+                if (filter.last_name) {
+                    query.lastname = { $regex: filter.last_name, $options: "i" };
                 }
             }
-            return users = await UserSchema.find(query);
-        }
-        catch (e) {
-            console.log(e);
+            // Implementa la lógica para buscar usuarios por filtro
+        } catch (error) {
+            console.error("Error al buscar usuarios por filtro:", error);
+            throw error;
         }
     }
+};
 
-}
-
-module.exports = resolver
+module.exports = resolvers;
