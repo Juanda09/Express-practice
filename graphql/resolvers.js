@@ -130,7 +130,45 @@ const resolvers = {
             console.error("Error al buscar casas por filtro:", error);
             throw error;
         }
-    }    
+    },
+    HouseByPriceRange: async (_,{ minPrice, maxPrice }) => {
+        try {
+            // Define la consulta para buscar casas dentro del rango de precios especificado
+            const query = {
+                price: { $gte: minPrice, $lte: maxPrice } // Busca casas con precios mayores o iguales a minPrice y menores o iguales a maxPrice
+            };
+            
+            // Ejecuta la consulta y devuelve las casas encontradas
+            const houses = await HouseSchema.find(query);
+            return houses;
+        } catch (error) {
+            console.error("Error al buscar casas por rango de precios:", error);
+            throw error;
+        }
+    },
+    MessagesByFilter: async (_, {filter}) => {
+        try{
+            let query = {};
+            if(filter){
+                if(filter.from){
+                    query= {from: filter.from} 
+                }
+                if(filter.to){
+                    query = { to: filter.to}
+                }
+                if(filter.body){
+                    query.body = { $regex: filter.body, $options: 'i'}
+                }
+
+                const message = await MessageSchema.find(query).populate('from').populate('to') 
+                return message;
+            }
+
+        }catch(e){
+            console.log("Error obteniendo el mensaje")
+        }
+    }
+        
     
 
 };

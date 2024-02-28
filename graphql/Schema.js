@@ -70,7 +70,15 @@ const HouseFilterInputType = new GraphQLInputObjectType({
         bathrooms: { type: GraphQLInt },
         parking: { type: GraphQLBoolean }
     })
-})
+});
+const MessageFilterInput = new GraphQLInputObjectType({
+    name: 'MessageFilterInput',
+    fields: {
+      body: {type: GraphQLString},
+      from: {type: GraphQLString},
+      to: {type: GraphQLString}
+    }
+});
 
 // Define las consultas GraphQL
 const QueryType = new GraphQLObjectType({
@@ -133,6 +141,22 @@ const QueryType = new GraphQLObjectType({
                 userId: { type: GraphQLID }
             },
             resolve: resolvers.messagesByUser
+        },
+        
+        HouseByPriceRange:{
+            type: new GraphQLList(HouseType),
+            args: {
+                minPrice: { type: GraphQLInt },
+                maxPrice: { type: GraphQLInt }
+            },
+            resolve: resolvers.HouseByPriceRange
+        },
+        MessagesByFilter: {
+            type: GraphQLList(MessageType),
+            resolve: resolvers.MessagesByFilter,
+            args: {
+              filter: { type: MessageFilterInput }
+            }
         }
     })
 });
