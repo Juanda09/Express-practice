@@ -20,7 +20,7 @@ async function generarCodigo() {
     if (codigoexistente) {
         return generarCodigo();
     }
-    else{
+    else {
         return codigo;
     }
 }
@@ -31,7 +31,7 @@ exports.createHouse = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const casa_existente = await HouseSchema.findOne({ address: req.body.address }); 
+        const casa_existente = await HouseSchema.findOne({ address: req.body.address });
         if (casa_existente) {
             return res.status(400).json({ message: 'La casa ya existe.' });
         }
@@ -42,7 +42,7 @@ exports.createHouse = async (req, res) => {
         }
         // Validación de la ciudad perteneciente al departamento
         const departamento = req.body.state.toLowerCase();
-        const ciudad = req.body.city.toLowerCase();        
+        const ciudad = req.body.city.toLowerCase();
         const ciudadesDepartamento = ciudadesPorDepartamento[departamento];
         if (!ciudadesDepartamento || !ciudadesDepartamento.includes(ciudad)) {
             return res.status(400).json({ message: 'La ciudad no pertenece al departamento especificado.' });
@@ -103,7 +103,7 @@ exports.updateHouseByCodigo = async (req, res) => {
         // Validación de la ciudad perteneciente al departamento
         const departamento = req.body.state.toLowerCase();
         const ciudad = req.body.city.toLowerCase();
-                
+
         const ciudadesDepartamento = ciudadesPorDepartamento[departamento];
         if (!ciudadesDepartamento || !ciudadesDepartamento.includes(ciudad)) {
             return res.status(400).json({ message: 'La ciudad no pertenece al departamento especificado.' });
@@ -121,7 +121,7 @@ exports.updateHouseByCodigo = async (req, res) => {
 }
 
 
-exports.deleteHouseByCodigo = async (req,res)=>{
+exports.deleteHouseByCodigo = async (req, res) => {
     try {
         const house = await HouseSchema.findOneAndDelete({ code: req.params.codigo });
         if (!house) {
@@ -133,14 +133,14 @@ exports.deleteHouseByCodigo = async (req,res)=>{
         res.status(500).send("Error al eliminar la casa");
     }
 }
-exports.upload= async (req, res) => {
+exports.upload = async (req, res) => {
     if (!req.file) {
         return res.status(400).send({
             message: "No file uploaded"
         });
     }
     try {
-        const house = await HouseSchema.findOne({code: req.params.codigo});
+        const house = await HouseSchema.findOne({ code: req.params.codigo });
         if (!house) {
             return res.status(404).json({ message: "No existe la casa con ese codigo" });
         }

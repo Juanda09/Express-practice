@@ -9,7 +9,7 @@ require('dotenv').config();
 // Importación de rutas
 const UserRoutes = require("./Routes/UserRoutes.js");
 const HouseRoutes = require("./Routes/HouseRoutes.js");
-const MessageRoutes= require("./Routes/MessageRoutes.js");
+const MessageRoutes = require("./Routes/MessageRoutes.js");
 const MessageSchema = require("./models/message.js")
 const UserSchema = require("./models/user.js");
 
@@ -66,7 +66,7 @@ io.on('connect', (socket) => {
 
             // Verificar que los campos 'from' y 'to' estén presentes
             if (!message.from || !message.to) {
-                io.emit('message', {"message": "Los campos 'from' y 'to' son obligatorios."});
+                io.emit('message', { "message": "Los campos 'from' y 'to' son obligatorios." });
                 return;
             }
 
@@ -75,7 +75,7 @@ io.on('connect', (socket) => {
             const userFrom = await UserSchema.findById(message.from);
             const userTo = await UserSchema.findById(message.to);
             if (!userFrom || !userTo) {
-                io.emit('message', {"message": "Los IDs 'from' y 'to' no existen en la base de datos."});
+                io.emit('message', { "message": "Los IDs 'from' y 'to' no existen en la base de datos." });
                 return;
             }
 
@@ -91,7 +91,7 @@ io.on('connect', (socket) => {
             io.emit('message-receipt', newMessage);
         } catch (error) {
             console.error(error);
-            io.emit('message', {"message": "Error al procesar el mensaje."});
+            io.emit('message', { "message": "Error al procesar el mensaje." });
         }
     });
 

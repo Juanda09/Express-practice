@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const HouseController = require("../Controllers/HouseController");
-const multer= require("multer")
+const multer = require("multer")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -20,7 +20,7 @@ const imageFilter = function (req, file, cb) {
     }
 };
 
-const upload = multer({ 
+const upload = multer({
     storage: storage,
     fileFilter: imageFilter // Aplicar el filtro de imágenes
 });

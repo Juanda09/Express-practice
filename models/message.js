@@ -15,7 +15,7 @@ const MessageSchema = new mongose.Schema({
         type: String,
         required: true
     },
-    reader:{
+    reader: {
         type: Boolean,
         default: false,
         required: true

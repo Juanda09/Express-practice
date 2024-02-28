@@ -7,7 +7,7 @@ const env = require('dotenv').config();  // Cargar variables de entorno
 
 // Función para generar un token JWT
 const generateToken = (user) => {
-    return jwt.sign({ id: user._id, email: user.email },env.JWT_SECRET, { expiresIn: "1h" }); // Cambia "secreto" por tu propia clave secreta
+    return jwt.sign({ id: user._id, email: user.email }, env.JWT_SECRET, { expiresIn: "1h" }); // Cambia "secreto" por tu propia clave secreta
 };
 exports.upload = async (req, res) => {
     if (!req.file) {
@@ -29,17 +29,17 @@ exports.upload = async (req, res) => {
     }
 };
 
-exports.validateToken = async (req, res, next)=> {
+exports.validateToken = async (req, res, next) => {
     const bearerHeader = req.headers["authorization"];
     if (!bearerHeader) {
-        return  res.status(401).send({ msg: "No hay token proporcionado" });
-    } 
+        return res.status(401).send({ msg: "No hay token proporcionado" });
+    }
     let token = bearerHeader.startsWith("Bearer ") ? bearerHeader.slice(7) : bearerHeader;
-    jwt.verify(token,"secreto", (err, decoded)=>{
-        if(err){
-            return res.status(403).send({msg:"El token no es válido"});
+    jwt.verify(token, "secreto", (err, decoded) => {
+        if (err) {
+            return res.status(403).send({ msg: "El token no es válido" });
         }
-        req._id=decoded._id;
+        req._id = decoded._id;
         next();
     });
 
@@ -73,11 +73,11 @@ exports.createUser = async (req, res) => {
 
         // Generar un hash para la contraseña del usuario
         const hashedPassword = await bcrypt.hash(password, 10);
-        
+
         // Crear un nuevo usuario con los datos proporcionados y la contraseña hasheada
         const newUser = new UserSchema({ name, last_name, age, email, password: hashedPassword });
         await newUser.save(); // Guardar el nuevo usuario en la base de datos
-        
+
         res.status(201).json(newUser); // Enviar una respuesta con el nuevo usuario creado
     } catch (error) {
         console.error("Error al guardar el usuario en la base de datos:", error);
@@ -153,19 +153,19 @@ exports.deleteUserById = async (req, res) => {
     }
 };
 // Función para manejar el inicio de sesión
-exports.login = async  (req, res) => {
+exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
         // Validar si el usuario digito el email
         if (!email) {
-            return res.status(400).json({ message: 'El correo electrónico es requerido.'})
+            return res.status(400).json({ message: 'El correo electrónico es requerido.' })
         }
         // Validar si el usuario digitó la contraseña
-        if(!password){
-            return res.status(400).json({message:'La contraseña es obligatoria'});
+        if (!password) {
+            return res.status(400).json({ message: 'La contraseña es obligatoria' });
         }
-                
+
         // Buscar al usuario por su correo electrónico en la base de datos
         const user = await UserSchema.findOne({ email });
         if (!user) { // Si el usuario no existe

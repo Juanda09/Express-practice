@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const UserController = require("../Controllers/UserController");
 const { validateUserCreate, validateUserUpdate, validateLogin } = require("../middlewares/userMiddleware");
-const multer= require("multer")
+const multer = require("multer")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -23,7 +23,7 @@ const imageFilter = function (req, file, cb) {
     }
 };
 
-const upload = multer({ 
+const upload = multer({
     storage: storage,
     fileFilter: imageFilter // Aplicar el filtro de imágenes
 });
@@ -48,7 +48,7 @@ router.put('/user/:id', validateUserUpdate, UserController.updateUserById);
 router.delete('/user/:id', UserController.deleteUserById);
 
 //Login para el usuario
-router.post("/login",validateLogin, UserController.login)
+router.post("/login", validateLogin, UserController.login)
 
 // Exportación del enrutador para su uso en la aplicación principal
 module.exports = router;
