@@ -108,6 +108,13 @@ const QueryType = new GraphQLObjectType({
                 filter: { type: UserFilterInputType }
             },
             resolve: resolvers.UserByFilter
+        },
+        messagesByUser:{
+            type: new GraphQLList(MessageType),
+            args: {
+                userId: { type: GraphQLID }
+            },
+            resolve: resolvers.messagesByUser
         }
     })
 });

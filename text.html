@@ -128,11 +128,11 @@
     
             var payload = {
                 "body": content,
-                "from": "65cebc2a19cdafb5a4f59637",
+                "from": "65de8dcf19f1a0cad0d80fa8",
                 "to": "65cebc5119cdafb5a4f59639"
             }
             var data = JSON.stringify(payload);
-    
+            console.log(data)
             socket.emit("message", data)
         }
     </script>    

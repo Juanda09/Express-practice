@@ -6,9 +6,11 @@ const resolvers = {
     hello: () => {
         return "Hola Mundo";
     },
-    message: async (_,{id}) => {
+    message: async (_, { id }) => {
         try {
-            return message = await MessageSchema.findById(id);
+            return await MessageSchema.findById(id)
+                .populate("from")
+                .populate("to");
         } catch (error) {
             console.error("Error al buscar mensaje por ID:", error);
             throw error;
@@ -16,12 +18,15 @@ const resolvers = {
     },
     messages: async () => {
         try {
-            return messages = await MessageSchema.find();
+            return await MessageSchema.find()
+                .populate("from",)
+                .populate("to");
         } catch (error) {
             console.error("Error al buscar mensajes:", error);
             throw error;
         }
     },
+    
     User: async (_,{id}) => {
         try {
             return user = await UserSchema.findById(id);
@@ -71,6 +76,27 @@ const resolvers = {
             // Implementa la lógica para buscar usuarios por filtro
         } catch (error) {
             console.error("Error al buscar usuarios por filtro:", error);
+            throw error;
+        }
+    },
+    messagesByUser: async (_,{ userId }) => {
+        try {
+            // Busca al usuario en la base de datos para obtener su información completa
+            const user = await UserSchema.findById(userId);
+
+            if (!user) {
+                throw new Error("Usuario no encontrado");
+            }
+
+            // Luego, busca los mensajes relacionados con el usuario por su ID
+            const messages = await MessageSchema.find({ $or: [{ from: userId }, { to: userId }] })
+            .populate("from")
+            .populate("to");
+
+            // Devuelve los mensajes encontrados junto con la información completa del usuario
+            return messages;
+        } catch (error) {
+            console.error("Error al buscar mensajes por usuario:", error);
             throw error;
         }
     }

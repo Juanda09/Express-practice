@@ -66,6 +66,7 @@ io.on('connect', (socket) => {
     socket.on('message', async (data) => {
         try {
             const message = JSON.parse(data);
+            console.log(message);
 
             // Verificar que los campos 'from' y 'to' estén presentes
             if (!message.from || !message.to) {
