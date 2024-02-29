@@ -123,6 +123,9 @@ const resolvers = {
                 if (filter.bathrooms) {
                     query.bathrooms = filter.bathrooms; // Corrección: No es necesario usar $regex para el número de baños
                 }
+                if(filter.zip_code){
+                    query.zip_code = { $regex: filter.zip_code, $options: "i" };
+                }
             }
             // El retorno debe estar fuera del bloque if
             return houses = await HouseSchema.find(query);

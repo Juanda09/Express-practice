@@ -68,7 +68,8 @@ const HouseFilterInputType = new GraphQLInputObjectType({
         type: { type: GraphQLString },
         rooms: { type: GraphQLInt },
         bathrooms: { type: GraphQLInt },
-        parking: { type: GraphQLBoolean }
+        parking: { type: GraphQLBoolean },
+        zip_code: { type:GraphQLString }
     })
 });
 const MessageFilterInput = new GraphQLInputObjectType({
