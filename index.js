@@ -29,9 +29,8 @@ if (!DB_URL) {
     console.error("La URL de la base de datos no está configurada en las variables de entorno.");
     process.exit(1); // Salir de la aplicación si no se configura la URL de la base de datos
 }
-mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Conexión exitosa a la base de datos"))
-    .catch(error => console.error("Error al conectar a la base de datos:", error));
+mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 // Middleware para procesar datos codificados en URL y JSON
 app.use(express.urlencoded({ extended: true }));
@@ -50,6 +49,7 @@ const yoga= new createYoga({schema});
 app.use('/graphql',yoga)
 // Ruta principal
 app.get("/", (req, res) => {
+    res.statusCode = 200
     res.send(`API RESTful de Usuarios <br> ${new Date()}`);
 });
 
@@ -115,4 +115,6 @@ app.use((err, req, res, next) => {
 http.listen(port, () => {
     console.log(`API running on http://localhost:${port}/`); // Muestra un mensaje en la consola indicando que el servidor está en funcionamiento
 });
+
+module.exports = http
 

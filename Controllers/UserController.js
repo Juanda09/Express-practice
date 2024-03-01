@@ -7,7 +7,8 @@ const env = require('dotenv').config();  // Cargar variables de entorno
 
 // Función para generar un token JWT
 const generateToken = (user) => {
-    return jwt.sign({ id: user._id, email: user.email }, env.JWT_SECRET, { expiresIn: "1h" }); // Cambia "secreto" por tu propia clave secreta
+    const jwtscret= process.env.JWT_SECRET
+    return jwt.sign({ id: user._id, email: user.email },jwtscret, { expiresIn: "1h" }); // Cambia "secreto" por tu propia clave secreta
 };
 exports.upload = async (req, res) => {
     if (!req.file) {
