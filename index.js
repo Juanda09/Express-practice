@@ -12,6 +12,7 @@ require('dotenv').config();
 const UserRoutes = require("./Routes/UserRoutes.js");
 const HouseRoutes = require("./Routes/HouseRoutes.js");
 const MessageRoutes = require("./Routes/MessageRoutes.js");
+const DepartRoutes = require("./file_managed.js");
 const MessageSchema = require("./models/message.js")
 const UserSchema = require("./models/user.js");
 
@@ -19,7 +20,6 @@ const UserSchema = require("./models/user.js");
 const app = express();
 const http = require("http").Server(app);
 const io = socket(http);
-
 // Puerto en el que se ejecutará el servidor
 const port = process.env.PORT || 4000;
 
@@ -57,6 +57,7 @@ app.get("/", (req, res) => {
 app.use("/", UserRoutes);
 app.use("/", HouseRoutes);
 app.use("/", MessageRoutes);
+app.use("/",DepartRoutes);
 
 // Manejo de eventos de socket
 // Manejo de eventos de socket

@@ -1,4 +1,4 @@
-const ciudadesPorDepartamento = {
+{
   "amazonas": ["leticia", "puerto narino"],
   "antioquia": ["medellin", "bello", "envigado", "itagui", "apartado", "rionegro"],
   "arauca": ["arauca", "saravena"],
@@ -31,6 +31,4 @@ const ciudadesPorDepartamento = {
   "valle del cauca": ["cali", "buga", "palmira", "tulua"],
   "vaupes": ["mitu"],
   "vichada": ["puerto carreno"]
-};
-
-module.exports = ciudadesPorDepartamento;
+}

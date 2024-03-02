@@ -1,6 +1,6 @@
 const HouseSchema = require('../models/House');
 const { validationResult } = require('express-validator');
-const ciudadesPorDepartamento = require('../Colombia_data');
+const ciudadesPorDepartamento = require('../Colombia_data.json');
 
 
 async function generarCodigo() {
