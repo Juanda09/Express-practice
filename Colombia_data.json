@@ -1,34 +1,176 @@
 {
-  "amazonas": ["leticia", "puerto narino"],
-  "antioquia": ["medellin", "bello", "envigado", "itagui", "apartado", "rionegro"],
-  "arauca": ["arauca", "saravena"],
-  "atlantico": ["barranquilla", "soledad", "malambo", "puerto colombia"],
-  "bolivar": ["cartagena", "magangue", "turbo", "san juan nepomuceno"],
-  "boyaca": ["tunja", "duitama", "sogamoso", "chiquinquira"],
-  "caldas": ["manizales", "la dorada", "chinchina", "villamaria"],
-  "caqueta": ["florencia", "san vicente del caguan", "puerto rico"],
-  "casanare": ["yopal", "aguazul", "villanueva", "tauramena"],
-  "cauca": ["popayan", "santander de quilichao", "puerto tejada", "timbio"],
-  "cesar": ["valledupar", "aguachica", "la jagua de ibirico", "bosconia"],
-  "choco": ["quibdo", "nuqui", "tado", "istmina"],
-  "cordoba": ["monteria", "sahagun", "lorica", "montelibano"],
-  "cundinamarca": ["bogota", "zipaquira", "chia", "soacha"],
-  "guainia": ["inirida"],
-  "guaviare": ["san jose del guaviare"],
-  "huila": ["neiva", "pitalito", "garzon", "campoalegre"],
-  "la guajira": ["riohacha", "maicao", "uribia", "fonseca"],
-  "magdalena": ["santa marta", "cienaga", "fundacion", "el banco"],
-  "meta": ["villavicencio", "acacias", "granada", "puerto lopez"],
-  "narino": ["pasto", "tumaco", "ipiales", "tuquerres"],
-  "norte de santander": ["cucuta", "ocana", "pamplona", "villa del rosario"],
-  "putumayo": ["mocoa", "puerto asis", "sibundoy", "orito"],
-  "quindio": ["armenia", "calarca", "montenegro", "la tebaida"],
-  "risaralda": ["pereira", "dosquebradas", "la virginia", "santa rosa de cabal"],
-  "san andres y providencia": ["san andres"],
-  "santander": ["bucaramanga", "floridablanca", "giron", "piedecuesta"],
-  "sucre": ["sincelejo", "corozal", "sampues", "san onofre"],
-  "tolima": ["ibague", "espinal", "melgar", "honda"],
-  "valle del cauca": ["cali", "buga", "palmira", "tulua"],
-  "vaupes": ["mitu"],
-  "vichada": ["puerto carreno"]
+  "amazonas": [
+    "leticia",
+    "puerto narino"
+  ],
+  "antioquia": [
+    "medellin",
+    "bello",
+    "envigado",
+    "itagui",
+    "apartado",
+    "rionegro"
+  ],
+  "arauca": [
+    "arauca",
+    "saravena"
+  ],
+  "atlantico": [
+    "barranquilla",
+    "soledad",
+    "malambo",
+    "puerto colombia"
+  ],
+  "bolivar": [
+    "cartagena",
+    "magangue",
+    "turbo",
+    "san juan nepomuceno"
+  ],
+  "boyaca": [
+    "tunja",
+    "duitama",
+    "sogamoso",
+    "chiquinquira"
+  ],
+  "caldas": [
+    "manizales",
+    "la dorada",
+    "chinchina",
+    "villamaria"
+  ],
+  "caqueta": [
+    "florencia",
+    "san vicente del caguan",
+    "puerto rico"
+  ],
+  "casanare": [
+    "yopal",
+    "aguazul",
+    "villanueva",
+    "tauramena"
+  ],
+  "cauca": [
+    "popayan",
+    "santander de quilichao",
+    "puerto tejada",
+    "timbio"
+  ],
+  "cesar": [
+    "valledupar",
+    "aguachica",
+    "la jagua de ibirico",
+    "bosconia"
+  ],
+  "choco": [
+    "quibdo",
+    "nuqui",
+    "tado",
+    "istmina"
+  ],
+  "cordoba": [
+    "monteria",
+    "sahagun",
+    "lorica",
+    "montelibano"
+  ],
+  "cundinamarca": [
+    "bogota",
+    "zipaquira",
+    "chia",
+    "soacha"
+  ],
+  "guainia": [
+    "inirida"
+  ],
+  "guaviare": [
+    "san jose del guaviare"
+  ],
+  "huila": [
+    "neiva",
+    "pitalito",
+    "garzon",
+    "campoalegre"
+  ],
+  "la guajira": [
+    "riohacha",
+    "maicao",
+    "uribia",
+    "fonseca"
+  ],
+  "magdalena": [
+    "santa marta",
+    "cienaga",
+    "fundacion",
+    "el banco"
+  ],
+  "meta": [
+    "villavicencio",
+    "acacias",
+    "granada",
+    "puerto lopez"
+  ],
+  "narino": [
+    "pasto",
+    "tumaco",
+    "ipiales",
+    "tuquerres"
+  ],
+  "norte de santander": [
+    "cucuta",
+    "ocana",
+    "pamplona",
+    "villa del rosario"
+  ],
+  "putumayo": [
+    "mocoa",
+    "puerto asis",
+    "sibundoy",
+    "orito"
+  ],
+  "quindio": [
+    "armenia",
+    "calarca",
+    "montenegro",
+    "la tebaida"
+  ],
+  "risaralda": [
+    "pereira",
+    "dosquebradas",
+    "la virginia",
+    "santa rosa de cabal"
+  ],
+  "san andres y providencia": [
+    "san andres"
+  ],
+  "santander": [
+    "bucaramanga",
+    "floridablanca",
+    "giron",
+    "piedecuesta"
+  ],
+  "sucre": [
+    "sincelejo",
+    "corozal",
+    "sampues",
+    "san onofre"
+  ],
+  "tolima": [
+    "ibague",
+    "espinal",
+    "melgar",
+    "honda"
+  ],
+  "valle del cauca": [
+    "cali",
+    "buga",
+    "palmira",
+    "tulua"
+  ],
+  "vaupes": [
+    "mitu"
+  ],
+  "vichada": [
+    "puerto carreno"
+  ]
 }
