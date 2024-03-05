@@ -29,7 +29,7 @@ if (!DB_URL) {
     console.error("La URL de la base de datos no está configurada en las variables de entorno.");
     process.exit(1); // Salir de la aplicación si no se configura la URL de la base de datos
 }
-mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(DB_URL);
 
 
 // Middleware para procesar datos codificados en URL y JSON
