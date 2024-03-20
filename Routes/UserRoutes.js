@@ -42,7 +42,7 @@ router.post('/user', validateUserCreate, UserController.createUser);
 router.get('/user/:id', UserController.getUserById);
 
 // Actualizar un usuario por su ID con validación de entrada
-router.put('/user/:id', validateUserUpdate, UserController.updateUserById);
+router.patch('/user/:id', validateUserUpdate, UserController.updateUserById);
 
 // Eliminar un usuario por su ID
 router.delete('/user/:id', UserController.deleteUserById);

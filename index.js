@@ -4,7 +4,9 @@ const mongoose = require("mongoose"); // ODM para MongoDB
 const socket = require("socket.io");
 const {createYoga} = require("graphql-yoga");
 const schema = require("./graphql/Schema.js");
+const cors = require('cors');
 
+  
 // Para cargar variables de entorno desde un archivo .env
 require('dotenv').config();
 
@@ -22,6 +24,13 @@ const http = require("http").Server(app);
 const io = socket(http);
 // Puerto en el que se ejecutará el servidor
 const port = process.env.PORT || 4000;
+
+
+app.use(cors({
+    origin: 'http://localhost:5173', // Reemplaza con el origen de tu aplicación frontend
+    methods: ['GET', 'POST','PUT','PATCH','DELETE'], // Métodos HTTP permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+}));
 
 // Conexión a la base de datos MongoDB
 const DB_URL = process.env.DB_URL;
