@@ -182,7 +182,7 @@ exports.login = async (req, res) => {
         // Generar un token JWT y enviarlo en la respuesta
         const token = generateToken(user);
         const message = "Inicio de sesión exitoso"; // Mensaje de inicio de sesión
-        res.status(200).json({ message, token });
+        res.status(200).json({ message, token,"user": user });
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
         res.status(500).send("Error al iniciar sesión"); // Enviar un error 500 si ocurre un error al iniciar sesión
