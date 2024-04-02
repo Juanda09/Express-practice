@@ -32,7 +32,7 @@ router.get("/house", HouseController.getHouses); // Mostrar todas las casas
 
 router.get("/house/:codigo", HouseController.getHouseByCodigo); // Mostrar una casa por su código
 
-router.put("/house/:codigo", HouseController.updateHouseByCodigo); // Actualizar una casa por su código
+router.patch("/house/:codigo", HouseController.updateHouseByCodigo); // Actualizar una casa por su código
 
 router.post("/house", HouseController.createHouse);//Agregar una casa
 
