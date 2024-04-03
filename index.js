@@ -24,14 +24,13 @@ const http = require("http").Server(app);
 const io = socket(http);
 // Puerto en el que se ejecutará el servidor
 const port = process.env.PORT || 4000;
-
-
-app.use(cors({
+const corsOptions = {
     origin: 'http://localhost:5173', // Reemplaza con el origen de tu aplicación frontend
     methods: ['GET', 'POST','PUT','PATCH','DELETE'], // Métodos HTTP permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
-}));
+};
 
+app.use(cors(corsOptions));
 // Conexión a la base de datos MongoDB
 const DB_URL = process.env.DB_URL;
 if (!DB_URL) {
